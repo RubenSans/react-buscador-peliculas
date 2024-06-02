@@ -6,9 +6,9 @@ function ListOfMovies({ movies }) {
         {
             movies.map(movie => (
                 <li className="movie" key={movie.id}>
-                    <h3>{movie.title}</h3>
-                    <p>{movie.year}</p>
-                    <img src={movie.poster} alt={movie.title} />
+                    <h3 title={movie.title}>{movie.title}</h3>
+                    <p title={movie.year}>{movie.year}</p>
+                    <img title={movie.title} src={movie.poster} alt={movie.title} />
                 </li>
             ))
         }
