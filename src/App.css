@@ -38,9 +38,13 @@ form {
 
 .movie h3, .movie p{
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .movie img{
     border-radius: 8px;
     margin-top: 20px;
+    height: 300px;
 }
