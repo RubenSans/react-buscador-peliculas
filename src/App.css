@@ -24,6 +24,8 @@ form {
     margin: 0;
     padding: 0;
 
+    margin-top: 20px;
+
     display: grid;
     width: 100%;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -40,5 +42,5 @@ form {
 
 .movie img{
     border-radius: 8px;
-    margin-top: 16px;
+    margin-top: 20px;
 }
