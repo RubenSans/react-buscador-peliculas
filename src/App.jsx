@@ -2,19 +2,35 @@ import './App.css'
 import { useMovies } from './hooks/useMovies'
 import { useSearch } from './hooks/useSearch'
 import { Movies } from './components/Movies'
-
+import { useCallback, useState } from 'react'
+import debounce from 'just-debounce-it'
 
 function App() {
+  const [ sort, setSort ] = useState(false)
+
   const { search, updateSearch, error } = useSearch()
-  const { movies, loading, getMovies } = useMovies({ search })
+  const { movies, loading, getMovies } = useMovies({ search, sort })
+
+  const debouncedGetMovies = useCallback(
+    debounce( search => {
+      getMovies({ search })
+    }, 500)
+    , []
+  )
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    getMovies()
+    getMovies({ search })
+  }
+
+  const handleSort = () => {
+    setSort(!sort)
   }
 
   const handleChange = (event) => {
-    updateSearch(event.target.value)
+    const newSearch = event.target.value
+    updateSearch(newSearch)
+    debouncedGetMovies(newSearch)
   }
 
   return (
@@ -27,7 +43,9 @@ function App() {
             style={{ 
               border: '1px solid transparent',
               borderColor: error ? 'red' : 'transparent'
-            }} onChange={handleChange} value={search} name='query' placeholder='Avengers, Star Wars, The Matrix...'/>
+            }} onChange={handleChange} value={search} name='query' placeholder='Avengers, Star Wars, The Matrix...'
+          />
+          <input type='checkbox' onChange={handleSort} checked={sort} />
           <button type='submit'>Buscar</button>
         </form>
         {error && <p style={{ color: 'red', textAlign: 'center'}}>{error}</p>}
@@ -38,6 +56,7 @@ function App() {
           loading ? <p>Cargando...</p> : <Movies movies={movies} />
         }
       </main>
+      
     </div>
   )
 }
